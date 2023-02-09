@@ -1,3 +1,4 @@
+// Randomly generated a random choice for the computer to play
 function getComputerChoice() {
     // Constants associating the values of random with the string to return
     const ROCK_VALUE = 0;
