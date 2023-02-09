@@ -21,3 +21,14 @@ function getComputerChoice() {
         return SCISSORS;
     }
 }
+
+function playOneRound(playerSelection, computerSelection) {
+
+}
+
+// Converts a string to initial case form
+function toInitialCase(text) {
+    firstLetter = text[0].toUpperCase();
+    precedingText = text.substring(1).toLowerCase();
+    return firstLetter.concat(precedingText);
+}
