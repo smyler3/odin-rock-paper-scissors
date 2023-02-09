@@ -8,6 +8,44 @@ const DRAW = 0;
 const PLAYER_WIN = 1;
 const COMPUTER_WIN = 2;
 
+// Play through multiple rounds of rock-paper-scissors and declare the overall result
+function game() {
+    let playerScore = 0;
+    let computerScore = 0;
+    const MAX_ROUNDS = 5;
+    let playerSelection = undefined
+    let result = undefined;
+
+    // Play through all of the rounds
+    for (i = 0; i < MAX_ROUNDS; i++) {
+        // Get player's choice
+        playerSelection = prompt("Rock, Paper, or Scissors?: ");
+        result = playOneRound(playerSelection, getComputerChoice())
+        // Calculate result
+        if (result === DRAW) {
+            continue;
+        }
+        else if (result == PLAYER_WIN) {
+            playerScore += 1;
+        }
+        else {
+            computerScore += 1;
+        }
+    }
+
+    // Compare results
+    console.log(`Results: PlayerScore = ${playerScore}, ComputerScore = ${computerScore}`);
+    if (playerScore === computerScore) {
+        console.log("Draw!");
+    }
+    else if (playerScore > computerScore) {
+        console.log("Player Wins!");
+    }
+    else {
+        cconsole.log("Computer Wins!");
+    }
+}
+
 // Randomly generated a random choice for the computer to play
 function getComputerChoice() {
     // Constants associating the values of random with the string to return
