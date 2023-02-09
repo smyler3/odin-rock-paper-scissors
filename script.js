@@ -28,7 +28,7 @@ function playOneRound(playerSelection, computerSelection) {
 
 // Converts a string to initial case form
 function toInitialCase(text) {
-    firstLetter = text[0].toUpperCase();
-    precedingText = text.substring(1).toLowerCase();
+    let firstLetter = text[0].toUpperCase();
+    let precedingText = text.substring(1).toLowerCase();
     return firstLetter.concat(precedingText);
 }
