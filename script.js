@@ -33,16 +33,16 @@ function game() {
         }
     }
 
-    // Compare results
+    // Compare and produce results
     console.log(`Results: PlayerScore = ${playerScore}, ComputerScore = ${computerScore}`);
     if (playerScore === computerScore) {
-        console.log("Draw!");
+        console.log(`Draw! Both players had a score of ${playerScore}.`);
     }
     else if (playerScore > computerScore) {
-        console.log("Player Wins!");
+        console.log(`You Won by ${playerScore - computerScore} point(s)!`);
     }
     else {
-        cconsole.log("Computer Wins!");
+        console.log(`Computer Won by ${computerScore - playerScore} point(s)!`);
     }
 }
 
@@ -74,7 +74,7 @@ function playOneRound(playerSelection, computerSelection) {
     // Comparing types chosen and declaring outcome
     // A draw
     if (playerSelection == computerSelection) {
-        console.log("Draw!");
+        console.log(`Draw! Both players played ${playerSelection}`);
         return DRAW;
     }
     // Player wins
