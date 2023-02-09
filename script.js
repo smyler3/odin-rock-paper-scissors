@@ -3,6 +3,11 @@ const ROCK = "Rock";
 const PAPER = "Paper";
 const SCISSORS = "Scissors";
 
+// Constants representing the possible win states
+const DRAW = 0;
+const PLAYER_WIN = 1;
+const COMPUTER_WIN = 2;
+
 // Randomly generated a random choice for the computer to play
 function getComputerChoice() {
     // Constants associating the values of random with the string to return
@@ -32,18 +37,18 @@ function playOneRound(playerSelection, computerSelection) {
     // A draw
     if (playerSelection == computerSelection) {
         console.log("Draw!");
-        return;
+        return DRAW;
     }
     // Player wins
     if (playerSelection == ROCK && computerSelection == SCISSORS || playerSelection == PAPER && computerSelection == ROCK || 
     playerSelection == SCISSORS && computerSelection == PAPER ) {
         console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
-        return;
+        return PLAYER_WIN;
     }
     // Player loses
     else {
         console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
-        return;
+        return COMPUTER_WIN;
     }
 }
 
