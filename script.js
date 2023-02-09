@@ -23,8 +23,27 @@ function getComputerChoice() {
     }
 }
 
+// Play one round of rock-paper-scissors between the player and the computer
 function playOneRound(playerSelection, computerSelection) {
+    playerSelection = toInitialCase(playerSelection);
 
+    // Comparing types chosen and declaring outcome
+    // A draw
+    if (playerSelection == computerSelection) {
+        console.log("Draw!");
+        return;
+    }
+    // Player wins
+    if (playerSelection == "Rock" && computerSelection == "Scissors" || playerSelection == "Paper" && computerSelection == "Rock" || 
+    playerSelection == "Scissors" && computerSelection == "Paper" ) {
+        console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
+        return;
+    }
+    // Player loses
+    else {
+        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
+        return;
+    }
 }
 
 // Converts a string to initial case form
