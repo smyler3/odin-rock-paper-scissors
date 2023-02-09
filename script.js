@@ -9,4 +9,15 @@ function getComputerChoice() {
     const SCISSORS = "Scissors";
     // The random number value for selecting which type to play
     let random = Math.floor(Math.random() * 3);
+
+    // Return type to play based on the random value
+    if (random == ROCK_VALUE) {
+        return ROCK;
+    }
+    if (random == PAPER_VALUE) {
+        return PAPER;
+    }
+    if (random == SCISSORS_VALUE) {
+        return SCISSORS;
+    }
 }
