@@ -1,0 +1,58 @@
+* {
+    text-align: center;
+}
+
+body {
+    background-color: antiquewhite;
+}
+
+.playButtons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px 50px;
+    gap: 100px;
+}
+
+#playButton {
+    flex: 1;
+    font-size: 30px;
+    background-color: aliceblue;
+}
+
+button {
+    padding: 10px 20px; 
+}
+
+.scoreDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 40px 160px;
+    gap: 100px;
+}
+
+#scoreBox {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-width: 4px;
+    border-style: solid;
+    background-color: aliceblue;
+}
+
+.scoreTitle {
+    font-size: 30px;
+    margin: 0px;
+}
+
+#score {
+    font-size: 80px;
+    margin: 10px;
+}
+
+.resultText {
+    font-size: 30px;
+}

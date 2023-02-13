@@ -8,42 +8,29 @@ const DRAW = 0;
 const PLAYER_WIN = 1;
 const COMPUTER_WIN = 2;
 
-// Play through multiple rounds of rock-paper-scissors and declare the overall result
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    const MAX_ROUNDS = 5;
-    let playerSelection = undefined
-    let result = undefined;
+function setupButtons() {
+    const buttons = document.querySelectorAll('#playButton');
 
-    // Play through all of the rounds
-    for (i = 0; i < MAX_ROUNDS; i++) {
-        // Get player's choice
-        playerSelection = prompt("Rock, Paper, or Scissors?: ");
-        result = playOneRound(playerSelection, getComputerChoice())
-        // Calculate result
-        if (result === DRAW) {
-            continue;
-        }
-        else if (result == PLAYER_WIN) {
-            playerScore += 1;
-        }
-        else {
-            computerScore += 1;
-        }
-    }
+    // Creates an event listener for each button to play a round of rock-paper-scissors
+    buttons.forEach(button => {
+        button.addEventListener('click', makeChoice)
+    })
 
-    // Compare and produce results
-    console.log(`Results: PlayerScore = ${playerScore}, ComputerScore = ${computerScore}`);
-    if (playerScore === computerScore) {
-        console.log(`Draw! Both players had a score of ${playerScore}.`);
-    }
-    else if (playerScore > computerScore) {
-        console.log(`You Won by ${playerScore - computerScore} point(s)!`);
-    }
-    else {
-        console.log(`Computer Won by ${computerScore - playerScore} point(s)!`);
-    }
+    const replayButton = document.querySelector('#replay');
+    replayButton.addEventListener('click', function(e) {
+        resetGame();
+    })
+}
+
+// Plays a round with selected choice
+function makeChoice(e) {
+    playOneRound(`${e.target.className}`, getComputerChoice());
+}
+
+// Resets the game
+function resetGame() {
+    document.body.innerHTML = defaultDOMState;
+    setupButtons();
 }
 
 // Randomly generated a random choice for the computer to play
@@ -69,30 +56,70 @@ function getComputerChoice() {
 
 // Play one round of rock-paper-scissors between the player and the computer
 function playOneRound(playerSelection, computerSelection) {
-    playerSelection = toInitialCase(playerSelection);
-
     // Comparing types chosen and declaring outcome
     // A draw
     if (playerSelection == computerSelection) {
-        console.log(`Draw! Both players played ${playerSelection}`);
-        return DRAW;
+        updateResults(DRAW, playerSelection, computerSelection);
     }
     // Player wins
-    if (playerSelection == ROCK && computerSelection == SCISSORS || playerSelection == PAPER && computerSelection == ROCK || 
+    else if (playerSelection == ROCK && computerSelection == SCISSORS || playerSelection == PAPER && computerSelection == ROCK || 
     playerSelection == SCISSORS && computerSelection == PAPER ) {
-        console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
-        return PLAYER_WIN;
+        updateResults(PLAYER_WIN, playerSelection, computerSelection);
     }
     // Player loses
     else {
-        console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
-        return COMPUTER_WIN;
+        updateResults(COMPUTER_WIN, playerSelection, computerSelection);
     }
 }
 
-// Converts a string to initial case form
-function toInitialCase(text) {
-    let firstLetter = text[0].toUpperCase();
-    let precedingText = text.substring(1).toLowerCase();
-    return firstLetter.concat(precedingText);
+// Updates the previous round result and scores
+function updateResults(result, playerSelection, computerSelection) {
+    const resultMsg = document.querySelector('.resultText');
+    const playerScore = document.querySelector('.playerScore');
+    const computerScore = document.querySelector('.computerScore');
+
+    // Draw
+    if (result === DRAW) {
+        resultMsg.textContent = `Draw! Both players played ${playerSelection}`;
+    }
+    // Player Wins
+    else if (result === PLAYER_WIN) {
+        resultMsg.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
+        playerScore.textContent = (Number.parseInt(playerScore.textContent) + 1)
+    }
+    // Player Loses
+    else {
+        resultMsg.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
+        computerScore.textContent = (Number.parseInt(computerScore.textContent) + 1)
+    }
+
+    checkWinner(Number.parseInt(playerScore.textContent), Number.parseInt(computerScore.textContent));
 }
+
+// Checks for a winner
+function checkWinner(playerScore, computerScore) {
+    const winner = document.querySelector('h1');
+    const MAX_SCORE = 5;
+
+    if (playerScore === MAX_SCORE) {
+        winner.textContent = "Player Wins!";
+        endGame();
+    }
+    else if (computerScore === MAX_SCORE) {
+        winner.textContent = "Computer Wins!";
+        endGame();
+    }
+}
+
+// Ends playability when game ends
+function endGame() {
+    // Stops the play buttons from working
+    const buttons = document.querySelectorAll('#playButton');
+
+    buttons.forEach(button => {
+        button.removeEventListener('click', makeChoice);
+    })
+}
+
+let defaultDOMState = document.body.innerHTML;
+setupButtons();
