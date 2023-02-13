@@ -3,6 +3,10 @@ const ROCK = "Rock";
 const PAPER = "Paper";
 const SCISSORS = "Scissors";
 
+const ROCK_EMOTE = String.fromCodePoint(0x1FAA8);
+const PAPER_EMOTE = String.fromCodePoint(0x1F4C4);
+const SCISSOR_EMOTE = String.fromCodePoint(0x2702);
+
 // Constants representing the possible win states
 const DRAW = 0;
 const PLAYER_WIN = 1;
@@ -20,6 +24,8 @@ function setupButtons() {
     replayButton.addEventListener('click', function(e) {
         resetGame();
     })
+
+    roundNumber = 1;
 }
 
 // Plays a round with selected choice
@@ -59,41 +65,73 @@ function playOneRound(playerSelection, computerSelection) {
     // Comparing types chosen and declaring outcome
     // A draw
     if (playerSelection == computerSelection) {
-        updateResults(DRAW, playerSelection, computerSelection);
+        updateResults(DRAW, playerSelection);
     }
     // Player wins
     else if (playerSelection == ROCK && computerSelection == SCISSORS || playerSelection == PAPER && computerSelection == ROCK || 
     playerSelection == SCISSORS && computerSelection == PAPER ) {
-        updateResults(PLAYER_WIN, playerSelection, computerSelection);
+        updateResults(PLAYER_WIN, playerSelection);
     }
     // Player loses
     else {
-        updateResults(COMPUTER_WIN, playerSelection, computerSelection);
+        updateResults(COMPUTER_WIN, computerSelection);
     }
 }
 
 // Updates the previous round result and scores
-function updateResults(result, playerSelection, computerSelection) {
+function updateResults(result, winningType) {
     const resultMsg = document.querySelector('.resultText');
     const playerScore = document.querySelector('.playerScore');
     const computerScore = document.querySelector('.computerScore');
 
+    // Assign emojis for result message
+    const emojis = determineEmojis(winningType);
+    let winEmoji = emojis[0];
+    let loseEmoji = emojis[1];
+
+    if (resultMsg.textContent === "First To 5 - Click A Button To Play") {
+        resultMsg.textContent = "Round 1: ";
+    }
+    else resultMsg.textContent = `Round ${roundNumber}: `;
+
     // Draw
     if (result === DRAW) {
-        resultMsg.textContent = `Draw! Both players played ${playerSelection}`;
+        resultMsg.textContent += `Draw! Both players played ${winEmoji}`;
     }
     // Player Wins
     else if (result === PLAYER_WIN) {
-        resultMsg.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
+        resultMsg.textContent += `You Win! ${winEmoji} beats ${loseEmoji}`;
         playerScore.textContent = (Number.parseInt(playerScore.textContent) + 1)
     }
     // Player Loses
     else {
-        resultMsg.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
+        resultMsg.textContent += `You Lose! ${winEmoji} beats ${loseEmoji}`;
         computerScore.textContent = (Number.parseInt(computerScore.textContent) + 1)
     }
 
     checkWinner(Number.parseInt(playerScore.textContent), Number.parseInt(computerScore.textContent));
+    roundNumber += 1;
+}
+
+// Returns an array of emojis for the winner and the loser
+function determineEmojis(winningType) {
+    let winEmoji;
+    let loseEmoji;
+
+    if (winningType === ROCK) {
+        winEmoji = ROCK_EMOTE;
+        loseEmoji = SCISSOR_EMOTE;
+    }
+    else if (winningType === SCISSORS) {
+        winEmoji = SCISSOR_EMOTE;
+        loseEmoji = PAPER_EMOTE;
+    }
+    else {
+        winEmoji = PAPER_EMOTE;
+        loseEmoji = ROCK_EMOTE;
+    }
+
+    return [winEmoji, loseEmoji];
 }
 
 // Checks for a winner
@@ -102,11 +140,13 @@ function checkWinner(playerScore, computerScore) {
     const MAX_SCORE = 5;
 
     if (playerScore === MAX_SCORE) {
-        winner.textContent = "Player Wins!";
+        winner.textContent = "Player Wins! Press Play Again";
+        winner.classList.add('victor');
         endGame();
     }
     else if (computerScore === MAX_SCORE) {
-        winner.textContent = "Computer Wins!";
+        winner.textContent = "Computer Wins! Press Play Again";
+        winner.classList.add('victor');
         endGame();
     }
 }

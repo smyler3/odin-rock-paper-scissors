@@ -56,3 +56,14 @@ button {
 .resultText {
     font-size: 30px;
 }
+
+h1 {
+    margin: 20px 0px;
+}
+
+.victor {
+    font-size: 60px;
+    margin: 0px;
+    font-weight: bold;
+    color: goldenrod;
+}
