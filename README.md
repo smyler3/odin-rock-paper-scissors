@@ -1,2 +1,4 @@
 # odin-rock-paper-scissors
-A game of rock paper scissors using Java Script for The Odin Project
+
+Description:
+  A first to 5 game of rock paper scissors against a computer using Java Script
